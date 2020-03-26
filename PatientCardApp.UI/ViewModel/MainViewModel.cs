@@ -2,10 +2,9 @@
 using PatientCardApp.UI.Data;
 using System.Collections.ObjectModel;
 
-
 namespace PatientCardApp.UI.ViewModel
 {
-    class MainViewModel
+    public class MainViewModel:ViewModelBase
     {
         private readonly IPatientCardDataServices _patientCardDataServices;
         private PatientCard _selectedPatient;
@@ -32,8 +31,11 @@ namespace PatientCardApp.UI.ViewModel
         public PatientCard SelectedPatient
         {
             get { return _selectedPatient; }
-            set { _selectedPatient = value; }
+            set
+            {
+                _selectedPatient = value;
+                OnPropertyChanged();
+            }
         }
-
     }
 }
