@@ -63,6 +63,8 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Data\IPatientCardDataServices.cs" />
+    <Compile Include="Data\PatientCardDataServices.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -93,6 +95,16 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PatientCardApp.DataAccess\PatientCardApp.DataAccess.csproj">
+      <Project>{e3abf69b-48b5-4c40-a287-60428fb9536b}</Project>
+      <Name>PatientCardApp.DataAccess</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PatientCardApp.Model\PatientCardApp.Model.csproj">
+      <Project>{46323b14-f6c5-4941-9775-5e78a6f77a45}</Project>
+      <Name>PatientCardApp.Model</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
