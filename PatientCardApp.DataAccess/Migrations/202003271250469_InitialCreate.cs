@@ -12,9 +12,9 @@ namespace PatientCardApp.DataAccess.Migrations
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        FirstName = c.String(),
-                        MidleName = c.String(),
-                        LastName = c.String(),
+                        FirstName = c.String(nullable: false, maxLength: 50),
+                        MidleName = c.String(maxLength: 50),
+                        LastName = c.String(maxLength: 50),
                         Gender = c.String(),
                         BirthDay = c.DateTime(nullable: false),
                         Address = c.String(),
