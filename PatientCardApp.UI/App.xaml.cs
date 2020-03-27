@@ -1,4 +1,6 @@
-﻿using PatientCardApp.UI.Data;
+﻿using Autofac;
+using PatientCardApp.UI.Data;
+using PatientCardApp.UI.Startup;
 using PatientCardApp.UI.ViewModel;
 using System;
 using System.Collections.Generic;
@@ -17,10 +19,11 @@ namespace PatientCardApp.UI
     {
         private void Application_Startup(object sender, StartupEventArgs e)
         {
-            var mainWindow = new MainWindow(
-                new MainViewModel(
-                    new PatientCardDataServices()));
+            var bootstrapper = new Bootstrapper();
+            var container = bootstrapper.Bootstrap();
+
+            var mainWindow = container.Resolve<MainWindow>();
             mainWindow.Show();
         }
-    }
+    } 
 }
