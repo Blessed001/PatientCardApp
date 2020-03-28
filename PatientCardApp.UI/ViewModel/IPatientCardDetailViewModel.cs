@@ -2,7 +2,7 @@
 
 namespace PatientCardApp.UI.ViewModel
 {
-    public interface IPatientCardDatailViewModel
+    public interface IPatientCardDetailViewModel
     {
         Task LoadAsync(int patienCardId);
     }

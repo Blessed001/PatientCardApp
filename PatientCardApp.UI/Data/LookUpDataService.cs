@@ -10,7 +10,7 @@ namespace PatientCardApp.UI.Data
 {
     public class LookUpDataService : IPatientCardLookUpDataService
     {
-        private readonly Func<PatientCardContext> _contextCreator;
+        private Func<PatientCardContext> _contextCreator;
 
         public LookUpDataService(Func<PatientCardContext> contextCreator)
         {

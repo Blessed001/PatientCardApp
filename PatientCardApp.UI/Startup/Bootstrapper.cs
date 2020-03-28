@@ -2,6 +2,7 @@
 using PatientCardApp.DataAccess;
 using PatientCardApp.UI.Data;
 using PatientCardApp.UI.ViewModel;
+using Prism.Events;
 
 namespace PatientCardApp.UI.Startup
 {
@@ -11,12 +12,14 @@ namespace PatientCardApp.UI.Startup
         {
             var builder = new ContainerBuilder();
 
+            builder.RegisterType<EventAggregator>().As<IEventAggregator>().SingleInstance();
+
             builder.RegisterType<PatientCardContext>().AsSelf();
             
             builder.RegisterType<MainWindow>().AsSelf();
             builder.RegisterType<MainViewModel>().AsSelf();
             builder.RegisterType<NavigationViewModel>().As<INavigationViewModel>();
-            builder.RegisterType<PatientCardDatailViewModel>().As<IPatientCardDatailViewModel>();
+            builder.RegisterType<PatientCardDetailViewModel>().As<IPatientCardDetailViewModel>();
 
             builder.RegisterType<LookUpDataService>().AsImplementedInterfaces();
             builder.RegisterType<PatientCardDataServices>().As<IPatientCardDataService>();

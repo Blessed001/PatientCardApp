@@ -5,10 +5,10 @@ namespace PatientCardApp.UI.ViewModel
     public class MainViewModel:ViewModelBase
     {
         public MainViewModel(INavigationViewModel navigationViewModel,
-            IPatientCardDatailViewModel patientCardDatailViewModel)
+            IPatientCardDetailViewModel patientCardDetailViewModel)
         {
             NavigationViewModel = navigationViewModel;
-            PatientCardDatailViewModel = patientCardDatailViewModel;
+            PatientCardDetailViewModel = patientCardDetailViewModel;
         }
 
         public async Task LoadAsync()
@@ -17,7 +17,7 @@ namespace PatientCardApp.UI.ViewModel
         }
 
         public INavigationViewModel NavigationViewModel { get; }
-        public IPatientCardDatailViewModel PatientCardDatailViewModel { get; }
+        public IPatientCardDetailViewModel PatientCardDetailViewModel { get; }
         
     }
 }

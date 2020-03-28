@@ -1,23 +1,22 @@
 ﻿using PatientCardApp.Model;
 using PatientCardApp.UI.Data;
-using System;
-using System.Collections.Generic;
+using PatientCardApp.UI.Event;
+using Prism.Events;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace PatientCardApp.UI.ViewModel
 {
-    public class NavigationViewModel : INavigationViewModel
+    public class NavigationViewModel :ViewModelBase, INavigationViewModel
     {
-        private readonly IPatientCardLookUpDataService _patientCardLookUpDataService;
+        private  IPatientCardLookUpDataService _patientCardLookUpDataService;
+        private  IEventAggregator _eventAggregator;
 
-        public ObservableCollection<LookUpItem> PatientCards { get; }
-
-        public NavigationViewModel(IPatientCardLookUpDataService patientCardLookUpDataService)
+        public NavigationViewModel(IPatientCardLookUpDataService patientCardLookUpDataService,
+            IEventAggregator eventAggregator)
         {
             _patientCardLookUpDataService = patientCardLookUpDataService;
+            _eventAggregator = eventAggregator;
             PatientCards = new ObservableCollection<LookUpItem>();
         }
 
@@ -30,5 +29,24 @@ namespace PatientCardApp.UI.ViewModel
                 PatientCards.Add(item);
             }
         }
+
+        public ObservableCollection<LookUpItem> PatientCards { get; }
+
+        private LookUpItem _selectedPatientCard;
+
+        public LookUpItem SelectedPatientCard
+        {
+            get { return _selectedPatientCard; }
+            set { _selectedPatientCard = value;
+                OnPropertyChanged();
+                if(_selectedPatientCard != null)
+                {
+                    _eventAggregator.GetEvent<OpenPatientCardDetailViewEvent>()
+                    .Publish(_selectedPatientCard.Id);
+                }
+            }
+        }
+
+
     }
 }
