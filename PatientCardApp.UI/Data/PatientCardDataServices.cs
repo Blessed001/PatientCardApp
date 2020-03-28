@@ -1,17 +1,25 @@
-﻿using PatientCardApp.Model;
+﻿using PatientCardApp.DataAccess;
+using PatientCardApp.Model;
+using System;
 using System.Collections.Generic;
-
+using System.Linq;
 
 namespace PatientCardApp.UI.Data
 {
     public class PatientCardDataServices : IPatientCardDataServices
     {
+        private readonly Func<PatientCardContext> _contextCreator;
+
+        public PatientCardDataServices(Func<PatientCardContext> contextCreator)
+        {
+            _contextCreator = contextCreator;
+        }
         public IEnumerable<PatientCard> GetAll()
         {
-            yield return new PatientCard { FirstName = "Patient 1", LastName = "Patient Last 1" };
-            yield return new PatientCard { FirstName = "Patient 2", LastName = "Patient Last 2" };
-            yield return new PatientCard { FirstName = "Patient 3", LastName = "Patient Last 3" };
-            yield return new PatientCard { FirstName = "Patient 4", LastName = "Patient Last 4" };
+           using(var ctx = _contextCreator())
+            {
+                return ctx.PatientCards.AsNoTracking().ToList();
+            }
         }
     }
 }
