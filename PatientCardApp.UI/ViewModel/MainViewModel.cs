@@ -1,6 +1,7 @@
 ﻿using PatientCardApp.Model;
 using PatientCardApp.UI.Data;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 
 namespace PatientCardApp.UI.ViewModel
 {
@@ -16,9 +17,9 @@ namespace PatientCardApp.UI.ViewModel
             _patientCardDataServices = patientCardDataServices;
         }
 
-        public void Load()
+        public async Task LoadAsync()
         {
-            var patientCards = _patientCardDataServices.GetAll();
+            var patientCards = await _patientCardDataServices.GetAllAsync();
             PatientCards.Clear();
 
             foreach(var patientCard in patientCards)

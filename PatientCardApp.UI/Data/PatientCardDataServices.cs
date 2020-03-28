@@ -2,7 +2,9 @@
 using PatientCardApp.Model;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace PatientCardApp.UI.Data
 {
@@ -14,11 +16,11 @@ namespace PatientCardApp.UI.Data
         {
             _contextCreator = contextCreator;
         }
-        public IEnumerable<PatientCard> GetAll()
+        public async Task<List<PatientCard>> GetAllAsync()
         {
-           using(var ctx = _contextCreator())
+            using(var ctx = _contextCreator())
             {
-                return ctx.PatientCards.AsNoTracking().ToList();
+                return await ctx.PatientCards.AsNoTracking().ToListAsync();
             }
         }
     }
