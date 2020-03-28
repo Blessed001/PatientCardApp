@@ -23,5 +23,15 @@ namespace PatientCardApp.UI.Data
                 return await ctx.PatientCards.AsNoTracking().SingleAsync(pc => pc.Id == patientCardId);
             }
         }
+
+        public async Task SaveAsync(PatientCard patientCard)
+        {
+            using(var ctx = _contextCreator())
+            {
+                ctx.PatientCards.Attach(patientCard);
+                ctx.Entry(patientCard).State = EntityState.Modified;
+                await ctx.SaveChangesAsync();
+            }
+        }
     }
 }

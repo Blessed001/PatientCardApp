@@ -7,5 +7,6 @@ namespace PatientCardApp.UI.Data
     public interface IPatientCardDataService
     {
         Task<PatientCard> GetByIdAsync(int patientCardId);
+        Task SaveAsync(PatientCard patientCard);
     }
 }

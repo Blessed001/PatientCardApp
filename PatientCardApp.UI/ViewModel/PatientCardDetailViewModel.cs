@@ -1,9 +1,11 @@
 ﻿using PatientCardApp.Model;
 using PatientCardApp.UI.Data;
 using PatientCardApp.UI.Event;
+using Prism.Commands;
 using Prism.Events;
 using System;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace PatientCardApp.UI.ViewModel
 {
@@ -19,6 +21,24 @@ namespace PatientCardApp.UI.ViewModel
             _eventAggregator = eventAggregator;
             _eventAggregator.GetEvent<OpenPatientCardDetailViewEvent>()
                 .Subscribe(OnOpenPatientCardDetailView);
+
+            SaveCommand = new DelegateCommand(OnSaveExecute, OnSaveCanExecute);
+        }
+
+        private bool OnSaveCanExecute()
+        {
+            return true;
+        }
+
+        private async void OnSaveExecute()
+        {
+          await _patientCardDataService.SaveAsync(PatientCard);
+            _eventAggregator.GetEvent<AfterPatientCardSavedEvent>().Publish(
+                new AfterPatientCardSavedEventArgs
+                {
+                    Id = PatientCard.Id,
+                    DisplayMember = $"{PatientCard.LastName} {PatientCard.FirstName} {PatientCard.MidleName}"
+                });
         }
 
         private async void OnOpenPatientCardDetailView(int patientCardId)
@@ -42,5 +62,6 @@ namespace PatientCardApp.UI.ViewModel
                 OnPropertyChanged();
             }
         }
+        public ICommand SaveCommand { get; }
     }
 }
