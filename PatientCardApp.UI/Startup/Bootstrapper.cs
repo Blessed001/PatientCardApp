@@ -12,9 +12,14 @@ namespace PatientCardApp.UI.Startup
             var builder = new ContainerBuilder();
 
             builder.RegisterType<PatientCardContext>().AsSelf();
+            
             builder.RegisterType<MainWindow>().AsSelf();
             builder.RegisterType<MainViewModel>().AsSelf();
-            builder.RegisterType<PatientCardDataServices>().As<IPatientCardDataServices>();
+            builder.RegisterType<NavigationViewModel>().As<INavigationViewModel>();
+            builder.RegisterType<PatientCardDatailViewModel>().As<IPatientCardDatailViewModel>();
+
+            builder.RegisterType<LookUpDataService>().AsImplementedInterfaces();
+            builder.RegisterType<PatientCardDataServices>().As<IPatientCardDataService>();
 
             return builder.Build();
         }

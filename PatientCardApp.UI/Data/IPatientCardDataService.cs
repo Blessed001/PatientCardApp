@@ -4,8 +4,8 @@ using PatientCardApp.Model;
 
 namespace PatientCardApp.UI.Data
 {
-    public interface IPatientCardDataServices
+    public interface IPatientCardDataService
     {
-        Task<List<PatientCard>> GetAllAsync();
+        Task<PatientCard> GetByIdAsync(int patientCardId);
     }
 }

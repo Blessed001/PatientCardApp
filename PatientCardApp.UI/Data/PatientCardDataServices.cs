@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace PatientCardApp.UI.Data
 {
-    public class PatientCardDataServices : IPatientCardDataServices
+    public class PatientCardDataServices : IPatientCardDataService
     {
         private readonly Func<PatientCardContext> _contextCreator;
 
@@ -16,11 +16,11 @@ namespace PatientCardApp.UI.Data
         {
             _contextCreator = contextCreator;
         }
-        public async Task<List<PatientCard>> GetAllAsync()
+        public async Task<PatientCard> GetByIdAsync( int patientCardId)
         {
             using(var ctx = _contextCreator())
             {
-                return await ctx.PatientCards.AsNoTracking().ToListAsync();
+                return await ctx.PatientCards.AsNoTracking().SingleAsync(pc => pc.Id == patientCardId);
             }
         }
     }
