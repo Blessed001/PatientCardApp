@@ -16,6 +16,12 @@ namespace PatientCardApp.UI.Data.Repositories
         {
             _context = context ;
         }
+
+        public void Add(PatientCard patientCard)
+        {
+            _context.PatientCards.Add(patientCard);
+        }
+
         public async Task<PatientCard> GetByIdAsync( int patientCardId)
         {
             return await _context.PatientCards.SingleAsync(pc => pc.Id == patientCardId);
@@ -24,6 +30,11 @@ namespace PatientCardApp.UI.Data.Repositories
         public bool HasChanges()
         {
             return _context.ChangeTracker.HasChanges();
+        }
+
+        public void Remove(PatientCard model)
+        {
+            _context.PatientCards.Remove(model);
         }
 
         public async Task SaveAsync()

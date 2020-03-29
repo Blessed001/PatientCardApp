@@ -27,7 +27,7 @@ namespace PatientCardApp.Model
         public string Gender { get; set; }
 
         [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}", ApplyFormatInEditMode = false)]
         [Display(Name = "Дата Рождения")]
         public DateTime BirthDay { get; set; }
 

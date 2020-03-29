@@ -2,7 +2,7 @@
 
 namespace PatientCardApp.UI.Event
 {
-    public class OpenPatientCardDetailViewEvent:PubSubEvent<int?>
+    public class AfterPatientCardDeletedEvent:PubSubEvent<int>
     {
     }
 }

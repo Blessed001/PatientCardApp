@@ -4,7 +4,7 @@ namespace PatientCardApp.UI.ViewModel
 {
     public interface IPatientCardDetailViewModel
     {
-        Task LoadAsync(int patienCardId);
+        Task LoadAsync(int? patienCardId);
         bool HasChanges { get; }
     }
 }

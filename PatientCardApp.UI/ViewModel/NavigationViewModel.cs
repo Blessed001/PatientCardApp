@@ -2,6 +2,7 @@
 using PatientCardApp.UI.Data.Lookups;
 using PatientCardApp.UI.Event;
 using Prism.Events;
+using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -20,12 +21,7 @@ namespace PatientCardApp.UI.ViewModel
             _eventAggregator = eventAggregator;
             PatientCards = new ObservableCollection<NavigationItemViewModel>();
             _eventAggregator.GetEvent<AfterPatientCardSavedEvent>().Subscribe(AfterPatientCardSaved);
-        }
-
-        private void AfterPatientCardSaved(AfterPatientCardSavedEventArgs obj)
-        {
-            var lookupItem = PatientCards.Single(l => l.Id == obj.Id);
-            lookupItem.DisplayMember = obj.DisplayMember;
+            _eventAggregator.GetEvent<AfterPatientCardDeletedEvent>().Subscribe(AfterPatientCardDeleted);
         }
 
         public async Task LoadAsync()
@@ -39,5 +35,27 @@ namespace PatientCardApp.UI.ViewModel
         }
 
         public ObservableCollection<NavigationItemViewModel> PatientCards { get; }
+        private void AfterPatientCardDeleted(int patientCardId)
+        {
+            var patientCard = PatientCards.SingleOrDefault(pc => pc.Id == patientCardId);
+            if(patientCard != null)
+            {
+                PatientCards.Remove(patientCard);
+            }
+        }
+        private void AfterPatientCardSaved(AfterPatientCardSavedEventArgs obj)
+        {
+            var lookupItem = PatientCards.SingleOrDefault(pc => pc.Id == obj.Id);
+            if (lookupItem == null)
+            {
+                PatientCards.Add(new NavigationItemViewModel(obj.Id, obj.DisplayMember,
+                    _eventAggregator));
+            }
+            else
+            {
+                lookupItem.DisplayMember = obj.DisplayMember;
+            }
+        }
+
     }
 }

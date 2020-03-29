@@ -9,5 +9,7 @@ namespace PatientCardApp.UI.Data.Repositories
         Task<PatientCard> GetByIdAsync(int patientCardId);
         Task SaveAsync();
         bool HasChanges();
+        void Add(PatientCard patientCard);
+        void Remove(PatientCard model);
     }
 }

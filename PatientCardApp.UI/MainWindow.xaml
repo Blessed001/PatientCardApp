@@ -5,15 +5,33 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PatientCardApp.UI"
         xmlns:view="clr-namespace:PatientCardApp.UI.View"
+        xmlns:viewModel="clr-namespace:PatientCardApp.UI.ViewModel"
         mc:Ignorable="d"
-        Title="PatientCardApp" Height="650" Width="800" FontSize="20">
+        Title="PatientCardApp" Height="700" Width="800" FontSize="20">
+    <Window.Resources>
+        <DataTemplate DataType="{x:Type viewModel:PatientCardDetailViewModel}">
+            <view:PatientCardDetailView/>
+        </DataTemplate>
+    </Window.Resources>
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="200"/>
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
-        <view:NavigationView DataContext="{Binding NavigationViewModel}"/>
-        <view:PatientCardDetailView Grid.Column="1" DataContext="{Binding PatientCardDetailViewModel}"/>
+        <Menu Grid.ColumnSpan="2" FontSize="20">
+            <MenuItem Header="Добавить">
+                <MenuItem Header="Новый поциент" Command="{Binding CreateNewPatientCardCommand}"/>
+            </MenuItem>
+        </Menu>
+        <view:NavigationView Grid.Row="1"
+                             DataContext="{Binding NavigationViewModel}"/>
+        <ContentControl Grid.Row="1" 
+                                    Grid.Column="1"
+                                    Content="{Binding PatientCardDetailViewModel}"/>
 
     </Grid>
 </Window>

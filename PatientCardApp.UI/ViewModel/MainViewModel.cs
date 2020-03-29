@@ -1,8 +1,10 @@
 ﻿using PatientCardApp.UI.Event;
 using PatientCardApp.UI.View.Services;
+using Prism.Commands;
 using Prism.Events;
 using System;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace PatientCardApp.UI.ViewModel
 {
@@ -25,14 +27,21 @@ namespace PatientCardApp.UI.ViewModel
 
             _eventAggregator.GetEvent<OpenPatientCardDetailViewEvent>()
                 .Subscribe(OnOpenPatientCardDetailView);
+            _eventAggregator.GetEvent<AfterPatientCardDeletedEvent>()
+                .Subscribe(AfterPatientCardDeleted);
+
+            CreateNewPatientCardCommand = new DelegateCommand(OnCreateNewPatientCardExecute);
 
             NavigationViewModel = navigationViewModel;
         }
 
+        
         public async Task LoadAsync()
         {
            await NavigationViewModel.LoadAsync();
         }
+
+        public ICommand CreateNewPatientCardCommand { get; }
 
         public INavigationViewModel NavigationViewModel { get; }
 
@@ -46,7 +55,7 @@ namespace PatientCardApp.UI.ViewModel
             }
         }
 
-        private async void OnOpenPatientCardDetailView(int patientCardId)
+        private async void OnOpenPatientCardDetailView(int? patientCardId)
         {
             if(PatientCardDetailViewModel != null && PatientCardDetailViewModel.HasChanges)
             {
@@ -58,6 +67,14 @@ namespace PatientCardApp.UI.ViewModel
             }
             PatientCardDetailViewModel = _patientCardDetailViewModelCreator();
             await PatientCardDetailViewModel.LoadAsync(patientCardId);
+        }
+        private void OnCreateNewPatientCardExecute()
+        {
+            OnOpenPatientCardDetailView(null);
+        }
+        private void AfterPatientCardDeleted(int patientCardId)
+        {
+            PatientCardDetailViewModel = null;
         }
 
     }

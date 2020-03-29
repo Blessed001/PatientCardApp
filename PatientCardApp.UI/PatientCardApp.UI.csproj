@@ -70,6 +70,7 @@
     </ApplicationDefinition>
     <Compile Include="Data\Lookups\IPatientCardLookUpDataService.cs" />
     <Compile Include="Data\Lookups\LookUpDataService.cs" />
+    <Compile Include="Event\AfterPatientCardDeletedEvent.cs" />
     <Compile Include="Event\AfterPatientCardSavedEvent.cs" />
     <Compile Include="Event\OpenPatientCardDetailViewEvent.cs" />
     <Compile Include="Startup\Bootstrapper.cs" />

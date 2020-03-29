@@ -1,6 +1,8 @@
-﻿using PatientCardApp.UI.Data;
+﻿using PatientCardApp.Model;
+using PatientCardApp.UI.Data;
 using PatientCardApp.UI.Data.Repositories;
 using PatientCardApp.UI.Event;
+using PatientCardApp.UI.View.Services;
 using PatientCardApp.UI.Wrapper;
 using Prism.Commands;
 using Prism.Events;
@@ -14,21 +16,28 @@ namespace PatientCardApp.UI.ViewModel
     {
         private  IPatientCardRepository _patientCardRepository;
         private  IEventAggregator _eventAggregator;
+        private  IMessageDialogService _messageDialogService;
         private  PatientCardWrapper _patientCard;
         private bool _hasChanges;
 
 
         public PatientCardDetailViewModel(IPatientCardRepository patientCardRepository,
-            IEventAggregator eventAggregator)
+            IEventAggregator eventAggregator,
+            IMessageDialogService messageDialogService)
         {
             _patientCardRepository = patientCardRepository;
             _eventAggregator = eventAggregator;
-
-            SaveCommand = new DelegateCommand(OnSaveExecute, OnSaveCanExecute);
+            _messageDialogService = messageDialogService;
+            SaveCommand = new DelegateCommand(OnSaveExecute, OnSaveCanExecute); 
+            DeleteCommand = new DelegateCommand(OnDeleteExecute); 
         }
-        public async Task LoadAsync(int patienCardId)
+
+       
+        public async Task LoadAsync(int? patienCardId)
         {
-            var patientCard = await _patientCardRepository.GetByIdAsync(patienCardId);
+            var patientCard = patienCardId.HasValue
+                ? await _patientCardRepository.GetByIdAsync(patienCardId.Value)
+                : CreateNewPatientCard();
 
             PatientCard = new PatientCardWrapper(patientCard);
             PatientCard.PropertyChanged += (s, e) =>
@@ -72,6 +81,7 @@ namespace PatientCardApp.UI.ViewModel
 
 
         public ICommand SaveCommand { get; }
+        public ICommand DeleteCommand { get; }
 
         private bool OnSaveCanExecute()
         {
@@ -86,8 +96,27 @@ namespace PatientCardApp.UI.ViewModel
                 new AfterPatientCardSavedEventArgs
                 {
                     Id = PatientCard.Id,
-                    DisplayMember = $"{PatientCard.LastName} {PatientCard.FirstName} {PatientCard.MidleName}"
+                    DisplayMember = $"{PatientCard.LastName}"
                 });
         }
+        private async void OnDeleteExecute()
+        {
+            var result = _messageDialogService.ShowOkCancelDialog($"Вы уверено хотите удалить пациента {PatientCard.LastName}?",
+                "Вопрос");
+            if(result == MessageDialogResult.OK)
+            {
+                _patientCardRepository.Remove(PatientCard.Model);
+                await _patientCardRepository.SaveAsync();
+                _eventAggregator.GetEvent<AfterPatientCardDeletedEvent>().Publish(PatientCard.Id);
+            }
+        }
+
+        private PatientCard CreateNewPatientCard()
+        {
+            var patientCard = new PatientCard();
+            _patientCardRepository.Add(patientCard);
+            return patientCard;
+        }
+
     }
 }
