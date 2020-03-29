@@ -2,11 +2,12 @@
 using System.Threading.Tasks;
 using PatientCardApp.Model;
 
-namespace PatientCardApp.UI.Data
+namespace PatientCardApp.UI.Data.Repositories
 {
-    public interface IPatientCardDataService
+    public interface IPatientCardRepository
     {
         Task<PatientCard> GetByIdAsync(int patientCardId);
-        Task SaveAsync(PatientCard patientCard);
+        Task SaveAsync();
+        bool HasChanges();
     }
 }

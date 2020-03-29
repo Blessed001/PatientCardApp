@@ -1,8 +1,7 @@
-﻿using PatientCardApp.Model;
-using PatientCardApp.UI.Data;
+﻿
+using PatientCardApp.UI.Data.Lookups;
 using PatientCardApp.UI.Event;
 using Prism.Events;
-using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -35,27 +34,10 @@ namespace PatientCardApp.UI.ViewModel
             PatientCards.Clear();
             foreach (var item in lookup)
             {
-                PatientCards.Add(new NavigationItemViewModel(item.Id, item.DisplayMember));
+                PatientCards.Add(new NavigationItemViewModel(item.Id, item.DisplayMember, _eventAggregator));
             }
         }
 
         public ObservableCollection<NavigationItemViewModel> PatientCards { get; }
-
-        private NavigationItemViewModel _selectedPatientCard;
-
-        public NavigationItemViewModel SelectedPatientCard
-        {
-            get { return _selectedPatientCard; }
-            set { _selectedPatientCard = value;
-                OnPropertyChanged();
-                if(_selectedPatientCard != null)
-                {
-                    _eventAggregator.GetEvent<OpenPatientCardDetailViewEvent>()
-                    .Publish(_selectedPatientCard.Id);
-                }
-            }
-        }
-
-
     }
 }

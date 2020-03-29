@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using PatientCardApp.Model;
 
-namespace PatientCardApp.UI.Data
+namespace PatientCardApp.UI.Data.Lookups
 {
     public interface IPatientCardLookUpDataService
     {

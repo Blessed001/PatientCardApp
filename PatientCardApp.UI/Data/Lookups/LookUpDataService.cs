@@ -6,7 +6,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace PatientCardApp.UI.Data
+namespace PatientCardApp.UI.Data.Lookups
 {
     public class LookUpDataService : IPatientCardLookUpDataService
     {
@@ -25,7 +25,7 @@ namespace PatientCardApp.UI.Data
                     .Select(pc => new LookUpItem
                     {
                         Id = pc.Id,
-                        DisplayMember = pc.LastName + " " + pc.FirstName + " " + pc.MidleName
+                        DisplayMember = pc.LastName 
                     }).ToListAsync();
             }
         }
