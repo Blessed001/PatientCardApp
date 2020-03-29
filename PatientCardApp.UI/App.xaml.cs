@@ -25,5 +25,12 @@ namespace PatientCardApp.UI
             var mainWindow = container.Resolve<MainWindow>();
             mainWindow.Show();
         }
+
+        private void Application_DispatcherUnhandledException(object sender,
+            System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
+        {
+            MessageBox.Show("Ошибка" + Environment.NewLine + e.Exception.Message, "Ожидаемая Ошибка");
+            e.Handled = true;
+        }
     } 
 }
