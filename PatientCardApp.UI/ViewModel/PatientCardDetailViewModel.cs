@@ -1,4 +1,5 @@
 ﻿using PatientCardApp.Model;
+using PatientCardApp.UI.Data.Lookups;
 using PatientCardApp.UI.Data.Repositories;
 using PatientCardApp.UI.Event;
 using PatientCardApp.UI.View.Services;
@@ -20,6 +21,7 @@ namespace PatientCardApp.UI.ViewModel
         private  IPatientCardRepository _patientCardRepository;
         private  IEventAggregator _eventAggregator;
         private  IMessageDialogService _messageDialogService;
+        private  ITypeOfVisitLookUpDataService _typeOfVisitLookUpDataService;
         private  PatientCardWrapper _patientCard;
         private VisitWrapper _selectedVisit;
         private bool _hasChanges;
@@ -27,15 +29,19 @@ namespace PatientCardApp.UI.ViewModel
 
         public PatientCardDetailViewModel(IPatientCardRepository patientCardRepository,
             IEventAggregator eventAggregator,
-            IMessageDialogService messageDialogService)
+            IMessageDialogService messageDialogService,
+            ITypeOfVisitLookUpDataService typeOfVisitLookUpDataService)
         {
             _patientCardRepository = patientCardRepository;
             _eventAggregator = eventAggregator;
             _messageDialogService = messageDialogService;
+            _typeOfVisitLookUpDataService = typeOfVisitLookUpDataService;
             SaveCommand = new DelegateCommand(OnSaveExecute, OnSaveCanExecute); 
             DeleteCommand = new DelegateCommand(OnDeleteExecute);
             AddVisitCommand = new DelegateCommand(OnAddVisitExecute);
             RemoveVisitCommand = new DelegateCommand(OnRemoveVisitExecute, OnRemoveCanExecute);
+
+            TypeOfVisits = new ObservableCollection<LookUpItem>();
 
             Visits = new ObservableCollection<VisitWrapper>();
 
@@ -50,6 +56,18 @@ namespace PatientCardApp.UI.ViewModel
 
             InitializePatientCard(patientCard);
             InitializeVisits(patientCard.Visits);
+            await LoadTypeOfVisitsLookupAsync();
+        }
+
+        private async Task LoadTypeOfVisitsLookupAsync()
+        {
+            TypeOfVisits.Clear();
+            TypeOfVisits.Add(new NullLookupItem { DisplayMember = "===="});
+            var lookup = await _typeOfVisitLookUpDataService.GetTypeOfVisitLookUpAsync();
+            foreach (var lookupItem in lookup)
+            {
+                TypeOfVisits.Add(lookupItem);
+            }
         }
 
         private void InitializePatientCard(PatientCard patientCard)
@@ -136,7 +154,7 @@ namespace PatientCardApp.UI.ViewModel
         public ICommand DeleteCommand { get; }
         public ICommand AddVisitCommand { get; }
         public ICommand RemoveVisitCommand { get; }
-
+        public ObservableCollection<LookUpItem> TypeOfVisits { get; }
         public ObservableCollection<VisitWrapper> Visits { get; }
 
         private bool OnSaveCanExecute()
@@ -149,7 +167,7 @@ namespace PatientCardApp.UI.ViewModel
 
         private async void OnSaveExecute()
         {
-          await _patientCardRepository.SaveAsync();
+           await _patientCardRepository.SaveAsync();
             HasChanges = _patientCardRepository.HasChanges();          
             _eventAggregator.GetEvent<AfterPatientCardSavedEvent>().Publish(
                 new AfterPatientCardSavedEventArgs

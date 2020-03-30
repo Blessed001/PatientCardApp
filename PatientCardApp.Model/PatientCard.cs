@@ -49,5 +49,6 @@ namespace PatientCardApp.Model
         public string PhoneNumber { get; set; }
 
         public ICollection<Visit> Visits { get; set; }
+
     }
 }

@@ -56,6 +56,10 @@
     <Compile Include="Migrations\202003292158250_Visits.Designer.cs">
       <DependentUpon>202003292158250_Visits.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202003301705011_TypeOfVisit.cs" />
+    <Compile Include="Migrations\202003301705011_TypeOfVisit.Designer.cs">
+      <DependentUpon>202003301705011_TypeOfVisit.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="PatientCardContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -76,6 +80,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202003292158250_Visits.resx">
       <DependentUpon>202003292158250_Visits.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202003301705011_TypeOfVisit.resx">
+      <DependentUpon>202003301705011_TypeOfVisit.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

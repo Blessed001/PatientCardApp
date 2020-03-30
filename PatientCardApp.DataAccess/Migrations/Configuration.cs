@@ -2,7 +2,6 @@ namespace PatientCardApp.DataAccess.Migrations
 {
     using PatientCardApp.Model;
     using System;
-    using System.Data.Entity;
     using System.Data.Entity.Migrations;
     using System.Linq;
 
@@ -28,6 +27,12 @@ namespace PatientCardApp.DataAccess.Migrations
                 d => d.DayOfVisit,
                   new Visit { DayOfVisit = DateTime.Parse("2020-01-12"), Diagnosis = "Diagnosis text", PatientCardId = context.PatientCards.First().Id  }
                 );
+
+            //context.TypeOfVisits.AddOrUpdate(
+            //    t => t.Name,
+            //      new TypeOfVisit { Name = "Первичный" },
+            //      new TypeOfVisit { Name = "Вторичный" }
+            //    ) ;
         }
     }
 }

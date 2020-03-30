@@ -2,17 +2,18 @@
 namespace PatientCardApp.DataAccess.Migrations
 {
     using System.CodeDom.Compiler;
+    using System.Data.Entity.Migrations;
     using System.Data.Entity.Migrations.Infrastructure;
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class InitialCreate : IMigrationMetadata
+    public sealed partial class TypeOfVisit : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(InitialCreate));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(TypeOfVisit));
         
         string IMigrationMetadata.Id
         {
-            get { return "202003271250469_InitialCreate"; }
+            get { return "202003301705011_TypeOfVisit"; }
         }
         
         string IMigrationMetadata.Source

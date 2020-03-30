@@ -69,7 +69,14 @@
                                         EditingElementStyle="{StaticResource DataGridEditingColumnStyle}"
                                         Binding="{Binding DayOfVisit, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                     <DataGridTextColumn Header="Тип посещения" Width="*"
-                                        Binding="{Binding Visit, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                        ElementStyle="{StaticResource DataGridColumnStyle}"
+                                        EditingElementStyle="{StaticResource DataGridEditingColumnStyle}"
+                                        Binding="{Binding TypeOfVisitId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+                    <DataGridTextColumn Header="Диагноз" Width="*"
+                                        ElementStyle="{StaticResource DataGridColumnStyle}"
+                                        EditingElementStyle="{StaticResource DataGridEditingColumnStyle}"
+                                        Binding="{Binding Diagnosis, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                 </DataGrid.Columns>
             </DataGrid>
         </DockPanel>
@@ -78,6 +85,12 @@
                     Command="{Binding SaveCommand}"/>
             <Button Content="Delete" Width="125" Margin="10"
                     Command="{Binding DeleteCommand}"/>
+
+            <ComboBox ItemsSource="{Binding TypeOfVisits}"
+                        DisplayMemberPath="DisplayMember"
+                        SelectedValuePath="Id"
+                        SelectedValue="{Binding Visit.TypeOfVisitId, Mode=TwoWay}"
+                        Margin="10 0 10 10"/>
         </StackPanel>
     </Grid>
 </UserControl>
