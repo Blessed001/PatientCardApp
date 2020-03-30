@@ -52,6 +52,10 @@
     <Compile Include="Migrations\202003271250469_InitialCreate.Designer.cs">
       <DependentUpon>202003271250469_InitialCreate.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202003292158250_Visits.cs" />
+    <Compile Include="Migrations\202003292158250_Visits.Designer.cs">
+      <DependentUpon>202003292158250_Visits.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="PatientCardContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -69,6 +73,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202003271250469_InitialCreate.resx">
       <DependentUpon>202003271250469_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202003292158250_Visits.resx">
+      <DependentUpon>202003292158250_Visits.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

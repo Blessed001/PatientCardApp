@@ -1,5 +1,4 @@
 ﻿using PatientCardApp.UI.ViewModel;
-using System;
 using System.Windows;
 
 namespace PatientCardApp.UI

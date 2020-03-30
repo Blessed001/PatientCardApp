@@ -26,5 +26,14 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
+
+        <Style x:Key="DataGridColumnStyle" TargetType="TextBlock">
+            
+        </Style>
+
+        <Style x:Key="DataGridEditingColumnStyle" TargetType="TextBox">
+
+        </Style>
+
     </Application.Resources>
 </Application>

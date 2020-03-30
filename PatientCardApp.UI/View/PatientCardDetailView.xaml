@@ -53,7 +53,27 @@
         <TextBox Grid.Row="13" Text="{Binding PatientCard.PhoneNumber,
                 Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="10 0 10 10"/>
 
-        <StackPanel Grid.Row="14" Orientation="Horizontal">
+        <DockPanel Grid.Row="14" Margin="10">
+            <StackPanel DockPanel.Dock="Right">
+                <Button Content="Add" Width="125" Margin="10"
+                        Command="{Binding AddVisitCommand}"/>
+                <Button Content="Delete" Width="125" Margin="10"
+                        Command="{Binding RemoveVisitCommand}"/>
+            </StackPanel>
+            <DataGrid ItemsSource="{Binding Visits}"
+                      SelectedItem="{Binding SelectedVisit, Mode=TwoWay}"
+                      AutoGenerateColumns="False" RowHeaderWidth="0">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Дата посещения" Width="*"
+                                        ElementStyle="{StaticResource DataGridColumnStyle}"
+                                        EditingElementStyle="{StaticResource DataGridEditingColumnStyle}"
+                                        Binding="{Binding DayOfVisit, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    <DataGridTextColumn Header="Тип посещения" Width="*"
+                                        Binding="{Binding Visit, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </DockPanel>
+        <StackPanel Grid.Row="15" Orientation="Horizontal">
             <Button Content="Save" Width="125" Margin="10"
                     Command="{Binding SaveCommand}"/>
             <Button Content="Delete" Width="125" Margin="10"

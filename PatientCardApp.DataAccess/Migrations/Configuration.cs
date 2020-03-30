@@ -22,6 +22,12 @@ namespace PatientCardApp.DataAccess.Migrations
                 new PatientCard { FirstName = "Patient 3", MidleName = "Midle 3", LastName = "Patient Last 3", Address = "Address 3", BirthDay = DateTime.Parse("2020-01-12"), Gender = "M", PhoneNumber = "8900234567" },
                 new PatientCard { FirstName = "Patient 4", MidleName = "Midle 4", LastName = "Patient Last 4", Address = "Address 4", BirthDay = DateTime.Parse("2020-01-12"), Gender = "M", PhoneNumber = "8900234567" }
                 );
+            context.SaveChanges();
+
+            context.Visits.AddOrUpdate(
+                d => d.DayOfVisit,
+                  new Visit { DayOfVisit = DateTime.Parse("2020-01-12"), Diagnosis = "Diagnosis text", PatientCardId = context.PatientCards.First().Id  }
+                );
         }
     }
 }

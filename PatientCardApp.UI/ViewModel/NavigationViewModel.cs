@@ -2,7 +2,6 @@
 using PatientCardApp.UI.Data.Lookups;
 using PatientCardApp.UI.Event;
 using Prism.Events;
-using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;

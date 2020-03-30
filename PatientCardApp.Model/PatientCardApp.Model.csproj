@@ -45,6 +45,7 @@
     <Compile Include="LookUpItem.cs" />
     <Compile Include="PatientCard.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Visit.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

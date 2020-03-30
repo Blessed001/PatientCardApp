@@ -1,5 +1,4 @@
 ﻿using PatientCardApp.Model;
-using PatientCardApp.UI.Data;
 using PatientCardApp.UI.Data.Repositories;
 using PatientCardApp.UI.Event;
 using PatientCardApp.UI.View.Services;
@@ -7,6 +6,10 @@ using PatientCardApp.UI.Wrapper;
 using Prism.Commands;
 using Prism.Events;
 using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
@@ -18,6 +21,7 @@ namespace PatientCardApp.UI.ViewModel
         private  IEventAggregator _eventAggregator;
         private  IMessageDialogService _messageDialogService;
         private  PatientCardWrapper _patientCard;
+        private VisitWrapper _selectedVisit;
         private bool _hasChanges;
 
 
@@ -29,16 +33,27 @@ namespace PatientCardApp.UI.ViewModel
             _eventAggregator = eventAggregator;
             _messageDialogService = messageDialogService;
             SaveCommand = new DelegateCommand(OnSaveExecute, OnSaveCanExecute); 
-            DeleteCommand = new DelegateCommand(OnDeleteExecute); 
+            DeleteCommand = new DelegateCommand(OnDeleteExecute);
+            AddVisitCommand = new DelegateCommand(OnAddVisitExecute);
+            RemoveVisitCommand = new DelegateCommand(OnRemoveVisitExecute, OnRemoveCanExecute);
+
+            Visits = new ObservableCollection<VisitWrapper>();
+
+
         }
 
-       
         public async Task LoadAsync(int? patienCardId)
         {
             var patientCard = patienCardId.HasValue
                 ? await _patientCardRepository.GetByIdAsync(patienCardId.Value)
                 : CreateNewPatientCard();
 
+            InitializePatientCard(patientCard);
+            InitializeVisits(patientCard.Visits);
+        }
+
+        private void InitializePatientCard(PatientCard patientCard)
+        {
             PatientCard = new PatientCardWrapper(patientCard);
             PatientCard.PropertyChanged += (s, e) =>
             {
@@ -53,6 +68,34 @@ namespace PatientCardApp.UI.ViewModel
             };
 
             ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
+        }
+
+        private void InitializeVisits(ICollection<Visit> visits)
+        {
+            foreach(var wrapper in Visits)
+            {
+                wrapper.PropertyChanged -= VisitWrapper_PropertyChanged;
+            }
+            Visits.Clear();
+            foreach(var visit in visits)
+            {
+                var wrapper = new VisitWrapper(visit);
+                Visits.Add(wrapper);
+                wrapper.PropertyChanged += VisitWrapper_PropertyChanged;
+
+            }
+        }
+
+        private void VisitWrapper_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (!HasChanges)
+            {
+                HasChanges = _patientCardRepository.HasChanges();
+            }
+            if (e.PropertyName == nameof(VisitWrapper.HasErrors))
+            {
+                ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
+            }
         }
 
         public PatientCardWrapper PatientCard
@@ -78,14 +121,30 @@ namespace PatientCardApp.UI.ViewModel
                 }
             }
         }
-
+        public VisitWrapper SelectedVisit
+        {
+            get { return _selectedVisit; }
+            set
+            {
+                _selectedVisit = value;
+                    OnPropertyChanged();
+                    ((DelegateCommand)RemoveVisitCommand).RaiseCanExecuteChanged();
+            }
+        }
 
         public ICommand SaveCommand { get; }
         public ICommand DeleteCommand { get; }
+        public ICommand AddVisitCommand { get; }
+        public ICommand RemoveVisitCommand { get; }
+
+        public ObservableCollection<VisitWrapper> Visits { get; }
 
         private bool OnSaveCanExecute()
         {
-            return PatientCard != null && !PatientCard.HasErrors && HasChanges;
+            return PatientCard != null 
+                && !PatientCard.HasErrors 
+                && Visits.All(v => !v.HasErrors)
+                && HasChanges;
         }
 
         private async void OnSaveExecute()
@@ -109,6 +168,29 @@ namespace PatientCardApp.UI.ViewModel
                 await _patientCardRepository.SaveAsync();
                 _eventAggregator.GetEvent<AfterPatientCardDeletedEvent>().Publish(PatientCard.Id);
             }
+        }
+
+        private bool OnRemoveCanExecute()
+        {
+            return SelectedVisit != null;
+        }
+
+        private void OnRemoveVisitExecute()
+        {
+            SelectedVisit.PropertyChanged -= VisitWrapper_PropertyChanged;
+            PatientCard.Model.Visits.Remove(SelectedVisit.Model);
+            Visits.Remove(SelectedVisit);
+            SelectedVisit = null;
+            HasChanges = _patientCardRepository.HasChanges();
+            ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
+        }
+
+        private void OnAddVisitExecute()
+        {
+            var newVisit = new VisitWrapper(new Visit());
+            newVisit.PropertyChanged += VisitWrapper_PropertyChanged;
+            Visits.Add(newVisit);
+            PatientCard.Model.Visits.Add(newVisit.Model);
         }
 
         private PatientCard CreateNewPatientCard()

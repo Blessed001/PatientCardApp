@@ -1,10 +1,16 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace PatientCardApp.Model
 {
     public class PatientCard
     {
+        public PatientCard()
+        {
+            Visits = new Collection<Visit>();
+        }
         public int Id { get; set; }
 
         [Required(ErrorMessage = "Поля {0} является обязательным")]
@@ -41,5 +47,7 @@ namespace PatientCardApp.Model
         [Required(ErrorMessage = "Поля {0} является обязательным")]
         [Display(Name = "Телефон")]
         public string PhoneNumber { get; set; }
+
+        public ICollection<Visit> Visits { get; set; }
     }
 }

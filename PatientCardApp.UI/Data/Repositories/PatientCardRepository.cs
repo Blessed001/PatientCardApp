@@ -1,9 +1,6 @@
 ﻿using PatientCardApp.DataAccess;
 using PatientCardApp.Model;
-using System;
-using System.Collections.Generic;
 using System.Data.Entity;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace PatientCardApp.UI.Data.Repositories
@@ -24,7 +21,9 @@ namespace PatientCardApp.UI.Data.Repositories
 
         public async Task<PatientCard> GetByIdAsync( int patientCardId)
         {
-            return await _context.PatientCards.SingleAsync(pc => pc.Id == patientCardId);
+            return await _context.PatientCards
+                .Include(pc => pc.Visits)
+                .SingleAsync(pc => pc.Id == patientCardId);
         }
 
         public bool HasChanges()
