@@ -1,14 +1,9 @@
-﻿using System.Threading.Tasks;
-using PatientCardApp.Model;
+﻿using PatientCardApp.Model;
 
 namespace PatientCardApp.UI.Data.Repositories
 {
-    public interface IPatientCardRepository
+    public interface IPatientCardRepository : IGenericRepository<PatientCard>
     {
-        Task<PatientCard> GetByIdAsync(int patientCardId);
-        Task SaveAsync();
-        bool HasChanges();
-        void Add(PatientCard patientCard);
-        void Remove(PatientCard model);
+        void RemoveVisit(Visit model);
     }
 }

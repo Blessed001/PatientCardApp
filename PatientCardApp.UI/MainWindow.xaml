@@ -7,8 +7,8 @@
         xmlns:view="clr-namespace:PatientCardApp.UI.View"
         xmlns:viewModel="clr-namespace:PatientCardApp.UI.ViewModel"
         mc:Ignorable="d"
-        Title="PatientCardApp" Height="1000" Width="800" 
-        WindowStartupLocation="CenterOwner"  FontSize="20">
+        Title="PatientCardApp" Height="700" Width="800" 
+        WindowStartupLocation="CenterScreen"  FontSize="20">
     <Window.Resources>
         <DataTemplate DataType="{x:Type viewModel:PatientCardDetailViewModel}">
             <view:PatientCardDetailView/>
@@ -25,14 +25,15 @@
         </Grid.ColumnDefinitions>
         <Menu Grid.ColumnSpan="2" FontSize="20">
             <MenuItem Header="Добавить">
-                <MenuItem Header="Новый поциент" Command="{Binding CreateNewPatientCardCommand}"/>
+                <MenuItem Header="Новый поциент" Command="{Binding CreateNewDetailCommand}"
+                          CommandParameter="{x:Type viewModel:PatientCardDetailViewModel}"/>
             </MenuItem>
         </Menu>
         <view:NavigationView Grid.Row="1"
                              DataContext="{Binding NavigationViewModel}"/>
         <ContentControl Grid.Row="1" 
                                     Grid.Column="1"
-                                    Content="{Binding PatientCardDetailViewModel}"/>
+                                    Content="{Binding DetailViewModel}"/>
 
     </Grid>
 </Window>

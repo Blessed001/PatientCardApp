@@ -5,40 +5,22 @@ using System.Threading.Tasks;
 
 namespace PatientCardApp.UI.Data.Repositories
 {
-    public class PatientCardRepository : IPatientCardRepository
+    public class PatientCardRepository : GenericRepository<PatientCard, PatientCardContext>,
+                                         IPatientCardRepository
     {
-        private readonly PatientCardContext _context;
-
-        public PatientCardRepository(PatientCardContext context)
+        public PatientCardRepository(PatientCardContext context):base(context)
         {
-            _context = context ;
         }
 
-        public void Add(PatientCard patientCard)
-        {
-            _context.PatientCards.Add(patientCard);
-        }
-
-        public async Task<PatientCard> GetByIdAsync( int patientCardId)
+        public override async Task<PatientCard> GetByIdAsync( int patientCardId)
         {
             return await _context.PatientCards
                 .Include(pc => pc.Visits)
                 .SingleAsync(pc => pc.Id == patientCardId);
         }
-
-        public bool HasChanges()
+        public void RemoveVisit(Visit model)
         {
-            return _context.ChangeTracker.HasChanges();
-        }
-
-        public void Remove(PatientCard model)
-        {
-            _context.PatientCards.Remove(model);
-        }
-
-        public async Task SaveAsync()
-        {
-           await _context.SaveChangesAsync();
+            _context.Visits.Remove(model);
         }
     }
 }

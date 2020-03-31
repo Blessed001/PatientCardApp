@@ -16,28 +16,23 @@ using System.Windows.Input;
 
 namespace PatientCardApp.UI.ViewModel
 {
-    public class PatientCardDetailViewModel : ViewModelBase, IPatientCardDetailViewModel
+    public class PatientCardDetailViewModel : DetailViewModelBase, IPatientCardDetailViewModel
     {
         private  IPatientCardRepository _patientCardRepository;
-        private  IEventAggregator _eventAggregator;
         private  IMessageDialogService _messageDialogService;
         private  ITypeOfVisitLookUpDataService _typeOfVisitLookUpDataService;
         private  PatientCardWrapper _patientCard;
         private VisitWrapper _selectedVisit;
-        private bool _hasChanges;
 
 
         public PatientCardDetailViewModel(IPatientCardRepository patientCardRepository,
             IEventAggregator eventAggregator,
             IMessageDialogService messageDialogService,
-            ITypeOfVisitLookUpDataService typeOfVisitLookUpDataService)
+            ITypeOfVisitLookUpDataService typeOfVisitLookUpDataService):base(eventAggregator)
         {
             _patientCardRepository = patientCardRepository;
-            _eventAggregator = eventAggregator;
             _messageDialogService = messageDialogService;
             _typeOfVisitLookUpDataService = typeOfVisitLookUpDataService;
-            SaveCommand = new DelegateCommand(OnSaveExecute, OnSaveCanExecute); 
-            DeleteCommand = new DelegateCommand(OnDeleteExecute);
             AddVisitCommand = new DelegateCommand(OnAddVisitExecute);
             RemoveVisitCommand = new DelegateCommand(OnRemoveVisitExecute, OnRemoveCanExecute);
 
@@ -48,7 +43,7 @@ namespace PatientCardApp.UI.ViewModel
 
         }
 
-        public async Task LoadAsync(int? patienCardId)
+        public override async Task LoadAsync(int? patienCardId)
         {
             var patientCard = patienCardId.HasValue
                 ? await _patientCardRepository.GetByIdAsync(patienCardId.Value)
@@ -126,19 +121,6 @@ namespace PatientCardApp.UI.ViewModel
             }
         }
 
-        public bool HasChanges
-        {
-            get { return _hasChanges; }
-            set 
-            {
-                if(_hasChanges != value)
-                {
-                    _hasChanges = value;
-                    OnPropertyChanged();
-                    ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
-                }
-            }
-        }
         public VisitWrapper SelectedVisit
         {
             get { return _selectedVisit; }
@@ -149,15 +131,12 @@ namespace PatientCardApp.UI.ViewModel
                     ((DelegateCommand)RemoveVisitCommand).RaiseCanExecuteChanged();
             }
         }
-
-        public ICommand SaveCommand { get; }
-        public ICommand DeleteCommand { get; }
         public ICommand AddVisitCommand { get; }
         public ICommand RemoveVisitCommand { get; }
         public ObservableCollection<LookUpItem> TypeOfVisits { get; }
         public ObservableCollection<VisitWrapper> Visits { get; }
 
-        private bool OnSaveCanExecute()
+        protected override bool OnSaveCanExecute()
         {
             return PatientCard != null 
                 && !PatientCard.HasErrors 
@@ -165,18 +144,13 @@ namespace PatientCardApp.UI.ViewModel
                 && HasChanges;
         }
 
-        private async void OnSaveExecute()
+        protected override async void OnSaveExecute()
         {
            await _patientCardRepository.SaveAsync();
-            HasChanges = _patientCardRepository.HasChanges();          
-            _eventAggregator.GetEvent<AfterPatientCardSavedEvent>().Publish(
-                new AfterPatientCardSavedEventArgs
-                {
-                    Id = PatientCard.Id,
-                    DisplayMember = $"{PatientCard.LastName}"
-                });
+            HasChanges = _patientCardRepository.HasChanges();
+            RaiseDetailSavedEvent(PatientCard.Id, $"{PatientCard.LastName}");
         }
-        private async void OnDeleteExecute()
+        protected override async void OnDeleteExecute()
         {
             var result = _messageDialogService.ShowOkCancelDialog($"Вы уверено хотите удалить пациента {PatientCard.LastName}?",
                 "Вопрос");
@@ -184,7 +158,7 @@ namespace PatientCardApp.UI.ViewModel
             {
                 _patientCardRepository.Remove(PatientCard.Model);
                 await _patientCardRepository.SaveAsync();
-                _eventAggregator.GetEvent<AfterPatientCardDeletedEvent>().Publish(PatientCard.Id);
+                RaiseDetailDeletedEvent(PatientCard.Id);
             }
         }
 
@@ -196,7 +170,7 @@ namespace PatientCardApp.UI.ViewModel
         private void OnRemoveVisitExecute()
         {
             SelectedVisit.PropertyChanged -= VisitWrapper_PropertyChanged;
-            PatientCard.Model.Visits.Remove(SelectedVisit.Model);
+            _patientCardRepository.RemoveVisit(SelectedVisit.Model);
             Visits.Remove(SelectedVisit);
             SelectedVisit = null;
             HasChanges = _patientCardRepository.HasChanges();

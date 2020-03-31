@@ -2,13 +2,14 @@
 
 namespace PatientCardApp.UI.Event
 {
-    public class AfterPatientCardSavedEvent:PubSubEvent<AfterPatientCardSavedEventArgs>
+    public class AfterDetailSavedEvent:PubSubEvent<AfterDetailSavedEventArgs>
     {
     }
 
-    public class AfterPatientCardSavedEventArgs
+    public class AfterDetailSavedEventArgs
     {
         public int Id { get; set; }
         public string DisplayMember { get; set; }
+        public string ViewModelName { get; set; }
     }
 }

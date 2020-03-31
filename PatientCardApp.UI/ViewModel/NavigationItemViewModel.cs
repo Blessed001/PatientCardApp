@@ -7,16 +7,19 @@ namespace PatientCardApp.UI.ViewModel
 {
     public class NavigationItemViewModel:ViewModelBase
     {
+        private string _detalViewModelName;
         private IEventAggregator _eventAggregator;
         private string _displayMember;
 
         public NavigationItemViewModel(int id, string displayMember,
+            string detalViewModelName,
             IEventAggregator eventAggregator)
         {
              Id = id;
             DisplayMember = displayMember;
+            _detalViewModelName = detalViewModelName;
             _eventAggregator = eventAggregator;
-            OpenPatientCardDetailViewCommand = new DelegateCommand(OnOpenPatientCardDetailView);
+            OpenDetailViewCommand = new DelegateCommand(OnOpenDetailViewExecute);
         }
 
         public int Id { get; set; }
@@ -28,11 +31,17 @@ namespace PatientCardApp.UI.ViewModel
             }
         }
 
-        public ICommand OpenPatientCardDetailViewCommand { get; }
-        private void OnOpenPatientCardDetailView()
+        public ICommand OpenDetailViewCommand { get; }
+        private void OnOpenDetailViewExecute()
         {
-            _eventAggregator.GetEvent<OpenPatientCardDetailViewEvent>()
-                   .Publish(Id);
+            _eventAggregator.GetEvent<OpenDetailViewEvent>()
+                   .Publish(
+                new OpenDetailViewEventArgs
+                {
+                    Id=Id,
+                    ViewModelName = _detalViewModelName
+                }
+                );
         }
     }
 }

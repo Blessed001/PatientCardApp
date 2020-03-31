@@ -19,8 +19,8 @@ namespace PatientCardApp.UI.ViewModel
             _patientCardLookUpDataService = patientCardLookUpDataService;
             _eventAggregator = eventAggregator;
             PatientCards = new ObservableCollection<NavigationItemViewModel>();
-            _eventAggregator.GetEvent<AfterPatientCardSavedEvent>().Subscribe(AfterPatientCardSaved);
-            _eventAggregator.GetEvent<AfterPatientCardDeletedEvent>().Subscribe(AfterPatientCardDeleted);
+            _eventAggregator.GetEvent<AfterDetailSavedEvent>().Subscribe(AfterDetailSaved);
+            _eventAggregator.GetEvent<AfterDetailDeletedEvent>().Subscribe(AfterDetailDeleted);
         }
 
         public async Task LoadAsync()
@@ -29,30 +29,43 @@ namespace PatientCardApp.UI.ViewModel
             PatientCards.Clear();
             foreach (var item in lookup)
             {
-                PatientCards.Add(new NavigationItemViewModel(item.Id, item.DisplayMember, _eventAggregator));
+                PatientCards.Add(new NavigationItemViewModel(item.Id, item.DisplayMember,
+                     nameof(PatientCardDetailViewModel),
+                    _eventAggregator));
             }
         }
 
         public ObservableCollection<NavigationItemViewModel> PatientCards { get; }
-        private void AfterPatientCardDeleted(int patientCardId)
+        private void AfterDetailDeleted(AfterDetailDeletedEventArgs args)
         {
-            var patientCard = PatientCards.SingleOrDefault(pc => pc.Id == patientCardId);
-            if(patientCard != null)
+            switch (args.ViewModelName)
             {
-                PatientCards.Remove(patientCard);
+                case nameof(PatientCardDetailViewModel):
+                    var patientCard = PatientCards.SingleOrDefault(pc => pc.Id == args.Id);
+                    if (patientCard != null)
+                    {
+                        PatientCards.Remove(patientCard);
+                    }
+                    break;
             }
         }
-        private void AfterPatientCardSaved(AfterPatientCardSavedEventArgs obj)
+        private void AfterDetailSaved(AfterDetailSavedEventArgs obj)
         {
-            var lookupItem = PatientCards.SingleOrDefault(pc => pc.Id == obj.Id);
-            if (lookupItem == null)
+            switch(obj.ViewModelName)
             {
-                PatientCards.Add(new NavigationItemViewModel(obj.Id, obj.DisplayMember,
-                    _eventAggregator));
-            }
-            else
-            {
-                lookupItem.DisplayMember = obj.DisplayMember;
+                case nameof(PatientCardDetailViewModel):
+                var lookupItem = PatientCards.SingleOrDefault(pc => pc.Id == obj.Id);
+                if (lookupItem == null)
+                {
+                    PatientCards.Add(new NavigationItemViewModel(obj.Id, obj.DisplayMember,
+                        nameof(PatientCardDetailViewModel),
+                        _eventAggregator));
+                }
+                else
+                {
+                    lookupItem.DisplayMember = obj.DisplayMember;
+                }
+                break;
             }
         }
 

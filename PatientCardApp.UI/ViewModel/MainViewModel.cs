@@ -13,7 +13,7 @@ namespace PatientCardApp.UI.ViewModel
         private IEventAggregator _eventAggregator;
         private readonly IMessageDialogService _messageDialogService;
         private Func<IPatientCardDetailViewModel> _patientCardDetailViewModelCreator;
-        private IPatientCardDetailViewModel _patientCardDetailViewModel;
+        private IDetailViewModel _detailViewModel;
 
 
         public MainViewModel(INavigationViewModel navigationViewModel,
@@ -25,12 +25,12 @@ namespace PatientCardApp.UI.ViewModel
             _messageDialogService = messageDialogService;
             _patientCardDetailViewModelCreator = patientCardDetailViewModelCreator;
 
-            _eventAggregator.GetEvent<OpenPatientCardDetailViewEvent>()
-                .Subscribe(OnOpenPatientCardDetailView);
-            _eventAggregator.GetEvent<AfterPatientCardDeletedEvent>()
-                .Subscribe(AfterPatientCardDeleted);
+            _eventAggregator.GetEvent<OpenDetailViewEvent>()
+                .Subscribe(OnOpenDetailView);
+            _eventAggregator.GetEvent<AfterDetailDeletedEvent>()
+                .Subscribe(AfterDetailDeleted);
 
-            CreateNewPatientCardCommand = new DelegateCommand(OnCreateNewPatientCardExecute);
+            CreateNewDetailCommand = new DelegateCommand<Type>(OnCreateNewDetailExecute);
 
             NavigationViewModel = navigationViewModel;
         }
@@ -41,23 +41,23 @@ namespace PatientCardApp.UI.ViewModel
            await NavigationViewModel.LoadAsync();
         }
 
-        public ICommand CreateNewPatientCardCommand { get; }
+        public ICommand CreateNewDetailCommand { get; }
 
         public INavigationViewModel NavigationViewModel { get; }
 
-        public IPatientCardDetailViewModel PatientCardDetailViewModel
+        public IDetailViewModel DetailViewModel
         {
-            get { return _patientCardDetailViewModel; }
+            get { return _detailViewModel; }
             private set 
             { 
-                _patientCardDetailViewModel = value;
+                _detailViewModel = value;
                 OnPropertyChanged();
             }
         }
 
-        private async void OnOpenPatientCardDetailView(int? patientCardId)
+        private async void OnOpenDetailView(OpenDetailViewEventArgs args)
         {
-            if(PatientCardDetailViewModel != null && PatientCardDetailViewModel.HasChanges)
+            if(DetailViewModel != null && DetailViewModel.HasChanges)
             {
                var result = _messageDialogService.ShowOkCancelDialog("Вы будете терят данные", "Question");
                 if(result == MessageDialogResult.Cancel)
@@ -65,16 +65,28 @@ namespace PatientCardApp.UI.ViewModel
                     return;
                 }
             }
-            PatientCardDetailViewModel = _patientCardDetailViewModelCreator();
-            await PatientCardDetailViewModel.LoadAsync(patientCardId);
+
+            switch (args.ViewModelName)
+            {
+                case nameof(PatientCardDetailViewModel):
+                    DetailViewModel = _patientCardDetailViewModelCreator();
+                    break;
+            }
+
+            await DetailViewModel.LoadAsync(args.Id);
         }
-        private void OnCreateNewPatientCardExecute()
+        private void OnCreateNewDetailExecute(Type viewModelType)
         {
-            OnOpenPatientCardDetailView(null);
+            OnOpenDetailView(
+                new OpenDetailViewEventArgs
+                {
+                    ViewModelName = viewModelType.Name
+                }
+                );
         }
-        private void AfterPatientCardDeleted(int patientCardId)
+        private void AfterDetailDeleted(AfterDetailDeletedEventArgs args)
         {
-            PatientCardDetailViewModel = null;
+            DetailViewModel = null;
         }
 
     }

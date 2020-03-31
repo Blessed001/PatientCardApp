@@ -1,10 +1,7 @@
-﻿using System.Threading.Tasks;
-
-namespace PatientCardApp.UI.ViewModel
+﻿namespace PatientCardApp.UI.ViewModel
 {
-    public interface IPatientCardDetailViewModel
+    public interface IPatientCardDetailViewModel:IDetailViewModel
     {
-        Task LoadAsync(int? patienCardId);
-        bool HasChanges { get; }
+
     }
 }
