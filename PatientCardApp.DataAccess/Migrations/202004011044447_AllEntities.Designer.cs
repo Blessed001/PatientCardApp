@@ -7,13 +7,13 @@ namespace PatientCardApp.DataAccess.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class TypeOfVisit : IMigrationMetadata
+    public sealed partial class AllEntities : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(TypeOfVisit));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(AllEntities));
         
         string IMigrationMetadata.Id
         {
-            get { return "202003301705011_TypeOfVisit"; }
+            get { return "202004011044447_AllEntities"; }
         }
         
         string IMigrationMetadata.Source

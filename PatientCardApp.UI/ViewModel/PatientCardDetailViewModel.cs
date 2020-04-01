@@ -1,12 +1,10 @@
 ﻿using PatientCardApp.Model;
 using PatientCardApp.UI.Data.Lookups;
 using PatientCardApp.UI.Data.Repositories;
-using PatientCardApp.UI.Event;
 using PatientCardApp.UI.View.Services;
 using PatientCardApp.UI.Wrapper;
 using Prism.Commands;
 using Prism.Events;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -18,9 +16,9 @@ namespace PatientCardApp.UI.ViewModel
 {
     public class PatientCardDetailViewModel : DetailViewModelBase, IPatientCardDetailViewModel
     {
-        private  IPatientCardRepository _patientCardRepository;
-        private  IMessageDialogService _messageDialogService;
-        private  ITypeOfVisitLookUpDataService _typeOfVisitLookUpDataService;
+        private readonly IPatientCardRepository _patientCardRepository;
+        private readonly IMessageDialogService _messageDialogService;
+        private readonly IGenderLookUpDataService _genderLookUpDataService;
         private  PatientCardWrapper _patientCard;
         private VisitWrapper _selectedVisit;
 
@@ -28,15 +26,15 @@ namespace PatientCardApp.UI.ViewModel
         public PatientCardDetailViewModel(IPatientCardRepository patientCardRepository,
             IEventAggregator eventAggregator,
             IMessageDialogService messageDialogService,
-            ITypeOfVisitLookUpDataService typeOfVisitLookUpDataService):base(eventAggregator)
+            IGenderLookUpDataService genderLookUpDataService):base(eventAggregator)
         {
             _patientCardRepository = patientCardRepository;
             _messageDialogService = messageDialogService;
-            _typeOfVisitLookUpDataService = typeOfVisitLookUpDataService;
+            _genderLookUpDataService = genderLookUpDataService;
             AddVisitCommand = new DelegateCommand(OnAddVisitExecute);
             RemoveVisitCommand = new DelegateCommand(OnRemoveVisitExecute, OnRemoveCanExecute);
 
-            TypeOfVisits = new ObservableCollection<LookUpItem>();
+            Genders = new ObservableCollection<LookUpItem>();
 
             Visits = new ObservableCollection<VisitWrapper>();
 
@@ -51,17 +49,17 @@ namespace PatientCardApp.UI.ViewModel
 
             InitializePatientCard(patientCard);
             InitializeVisits(patientCard.Visits);
-            await LoadTypeOfVisitsLookupAsync();
+            await LoadGendersLookupAsync();
         }
 
-        private async Task LoadTypeOfVisitsLookupAsync()
+        private async Task LoadGendersLookupAsync()
         {
-            TypeOfVisits.Clear();
-            TypeOfVisits.Add(new NullLookupItem { DisplayMember = "===="});
-            var lookup = await _typeOfVisitLookUpDataService.GetTypeOfVisitLookUpAsync();
+            Genders.Clear();
+            Genders.Add(new NullLookupItem { DisplayMember = "Выбрать пол" });
+            var lookup = await _genderLookUpDataService.GetGenderLookUpAsync();
             foreach (var lookupItem in lookup)
             {
-                TypeOfVisits.Add(lookupItem);
+                Genders.Add(lookupItem);
             }
         }
 
@@ -133,7 +131,7 @@ namespace PatientCardApp.UI.ViewModel
         }
         public ICommand AddVisitCommand { get; }
         public ICommand RemoveVisitCommand { get; }
-        public ObservableCollection<LookUpItem> TypeOfVisits { get; }
+        public ObservableCollection<LookUpItem> Genders { get;}
         public ObservableCollection<VisitWrapper> Visits { get; }
 
         protected override bool OnSaveCanExecute()

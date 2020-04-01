@@ -18,12 +18,6 @@ namespace PatientCardApp.DataAccess
         public DbSet<PatientCard> PatientCards { get; set; }
         public DbSet<TypeOfVisit> TypeOfVisits { get; set; }
         public DbSet<Visit> Visits { get; set; }
-
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        {
-            base.OnModelCreating(modelBuilder);
-
-            modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
-        }
+        public DbSet<Gender> Genders { get; set; }
     }
 }

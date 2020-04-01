@@ -29,9 +29,9 @@ namespace PatientCardApp.UI.Wrapper
             set{SetValue(value);}
         }
 
-        public string Gender
+        public int? GenderId
         {
-            get { return GetValue<string>(); }
+            get { return GetValue<int?>(); }
             set { SetValue(value); }
         }
 
@@ -52,18 +52,5 @@ namespace PatientCardApp.UI.Wrapper
             get { return GetValue<string>(); }
             set { SetValue(value); }
         }
-
-        //protected override IEnumerable<string> ValidateProperty(string propertyName)
-        //{
-        //    switch (propertyName)
-        //    {
-        //        case nameof(FirstName):
-        //            if (string.Equals(FirstName, "Robots", StringComparison.OrdinalIgnoreCase))
-        //            {
-        //                yield return "Robots are not valid name";
-        //            }
-        //            break;
-        //    }
-        //}
     }
 }

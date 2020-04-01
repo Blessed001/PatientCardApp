@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Gender.cs" />
     <Compile Include="LookUpItem.cs" />
     <Compile Include="PatientCard.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

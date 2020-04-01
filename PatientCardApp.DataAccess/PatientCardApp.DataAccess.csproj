@@ -48,17 +48,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Migrations\202003271250469_InitialCreate.cs" />
-    <Compile Include="Migrations\202003271250469_InitialCreate.Designer.cs">
-      <DependentUpon>202003271250469_InitialCreate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202003292158250_Visits.cs" />
-    <Compile Include="Migrations\202003292158250_Visits.Designer.cs">
-      <DependentUpon>202003292158250_Visits.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202003301705011_TypeOfVisit.cs" />
-    <Compile Include="Migrations\202003301705011_TypeOfVisit.Designer.cs">
-      <DependentUpon>202003301705011_TypeOfVisit.cs</DependentUpon>
+    <Compile Include="Migrations\202004011044447_AllEntities.cs" />
+    <Compile Include="Migrations\202004011044447_AllEntities.Designer.cs">
+      <DependentUpon>202004011044447_AllEntities.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="PatientCardContext.cs" />
@@ -75,14 +67,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202003271250469_InitialCreate.resx">
-      <DependentUpon>202003271250469_InitialCreate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202003292158250_Visits.resx">
-      <DependentUpon>202003292158250_Visits.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202003301705011_TypeOfVisit.resx">
-      <DependentUpon>202003301705011_TypeOfVisit.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202004011044447_AllEntities.resx">
+      <DependentUpon>202004011044447_AllEntities.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

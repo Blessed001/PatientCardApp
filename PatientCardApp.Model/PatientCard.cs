@@ -28,12 +28,6 @@ namespace PatientCardApp.Model
         [Display(Name = "Фамилия")]
         public string LastName { get; set; }
 
-        [Required(ErrorMessage = "Поля {0} является обязательным")]
-        [Display(Name = "Пол")]
-        public string Gender { get; set; }
-
-        [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}", ApplyFormatInEditMode = false)]
         [Display(Name = "Дата Рождения")]
         public DateTime BirthDay { get; set; }
 
@@ -47,6 +41,8 @@ namespace PatientCardApp.Model
         [Required(ErrorMessage = "Поля {0} является обязательным")]
         [Display(Name = "Телефон")]
         public string PhoneNumber { get; set; }
+        public int? GenderId { get; set; }
+        public Gender Gender { get; set; }
 
         public ICollection<Visit> Visits { get; set; }
 

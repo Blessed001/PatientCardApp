@@ -7,8 +7,6 @@ namespace PatientCardApp.Model
     {
         public int Id { get; set; }
 
-        [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}", ApplyFormatInEditMode = false)]
         [Display(Name = "Дата посещения")]
         public DateTime DayOfVisit { get; set; }
 
@@ -18,7 +16,6 @@ namespace PatientCardApp.Model
 
         public int PatientCardId { get; set; }
         public int? TypeOfVisitId { get; set; }
-
 
         public PatientCard PatientCard { get; set; }
 

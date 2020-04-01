@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace PatientCardApp.UI.Data.Lookups
 {
-    public class LookUpDataService : IPatientCardLookUpDataService, ITypeOfVisitLookUpDataService
+    public class LookUpDataService : IPatientCardLookUpDataService, IGenderLookUpDataService
     {
-        private Func<PatientCardContext> _contextCreator;
+        private readonly Func<PatientCardContext> _contextCreator;
 
         public LookUpDataService(Func<PatientCardContext> contextCreator)
         {
@@ -30,15 +30,15 @@ namespace PatientCardApp.UI.Data.Lookups
             }
         }
 
-        public async Task<IEnumerable<LookUpItem>> GetTypeOfVisitLookUpAsync()
+        public async Task<IEnumerable<LookUpItem>> GetGenderLookUpAsync()
         {
             using (var ctx = _contextCreator())
             {
-                return await ctx.TypeOfVisits.AsNoTracking()
-                    .Select(pc => new LookUpItem
+                return await ctx.Genders.AsNoTracking()
+                    .Select(g => new LookUpItem
                     {
-                        Id = pc.Id,
-                        DisplayMember = pc.Name
+                        Id = g.Id,
+                        DisplayMember = g.Name
                     }).ToListAsync();
             }
         }

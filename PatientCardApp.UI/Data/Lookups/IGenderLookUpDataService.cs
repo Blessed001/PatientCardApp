@@ -4,8 +4,8 @@ using PatientCardApp.Model;
 
 namespace PatientCardApp.UI.Data.Lookups
 {
-    public interface ITypeOfVisitLookUpDataService
+    public interface IGenderLookUpDataService
     {
-        Task<IEnumerable<LookUpItem>> GetTypeOfVisitLookUpAsync();
+        Task<IEnumerable<LookUpItem>> GetGenderLookUpAsync();
     }
 }
