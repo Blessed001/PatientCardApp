@@ -29,16 +29,16 @@
 
             context.PatientCards.AddOrUpdate(
                 f => f.FirstName,
-                new PatientCard { FirstName = "Patient 1", MidleName = "Midle 1", LastName = "Patient Last 1", Address = "Address 1", BirthDay = DateTime.Parse("2020-01-12"), PhoneNumber = "8900234567", GenderId = 1 },
-                new PatientCard { FirstName = "Patient 2", MidleName = "Midle 2", LastName = "Patient Last 2", Address = "Address 2", BirthDay = DateTime.Parse("2020-01-12"), PhoneNumber = "8900234567", GenderId = 2 },
-                new PatientCard { FirstName = "Patient 3", MidleName = "Midle 3", LastName = "Patient Last 3", Address = "Address 3", BirthDay = DateTime.Parse("2020-01-12"), PhoneNumber = "8900234567", GenderId = 2 },
-                new PatientCard { FirstName = "Patient 4", MidleName = "Midle 4", LastName = "Patient Last 4", Address = "Address 4", BirthDay = DateTime.Parse("2020-01-12"), PhoneNumber = "8900234567", GenderId = 1 }
+                new PatientCard { FirstName = "Юрий", MidleName = "Васильевич", LastName = "Шпаков", Address = "Улица Калинина 13 к 55  ", BirthDay = DateTime.Parse("1988-01-15"), PhoneNumber = "8900234567", GenderId = 1 },
+                new PatientCard { FirstName = "Светлана", MidleName = "Владимировна", LastName = "Лобусь", Address = "Улица Воровского 165", BirthDay = DateTime.Parse("1965-03-22"), PhoneNumber = "8900234567", GenderId = 2 },
+                new PatientCard { FirstName = "Вероника", MidleName = "Юрьевна", LastName = "Знаменская", Address = "Улица Мира д45", BirthDay = DateTime.Parse("1991-09-15"), PhoneNumber = "8900234567", GenderId = 2 },
+                new PatientCard { FirstName = "Александр", MidleName = "Михайлович", LastName = "Смирнов", Address = "Улица Ленина 188", BirthDay = DateTime.Parse("1986-08-08"), PhoneNumber = "8900234567", GenderId = 1 }
                 );
             context.SaveChanges();
 
             context.Visits.AddOrUpdate(
                 d => d.DayOfVisit,
-                  new Visit { DayOfVisit = DateTime.Parse("2020-01-12"), Diagnosis = "Diagnosis text", PatientCardId = context.PatientCards.First().Id, TypeOfVisitId = context.TypeOfVisits.First().Id }
+                  new Visit { DayOfVisit = DateTime.Parse("2020-01-12"), Diagnosis = "Lorem Ipsum - это текст-рыба, часто используемый в печати и вэб-дизайне.", PatientCardId = context.PatientCards.First().Id, TypeOfVisitId = context.TypeOfVisits.First().Id }
                 );
         }
     }

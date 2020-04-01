@@ -59,7 +59,7 @@ namespace PatientCardApp.UI.ViewModel
         {
             if(DetailViewModel != null && DetailViewModel.HasChanges)
             {
-               var result = _messageDialogService.ShowOkCancelDialog("Вы будете терят данные", "Question");
+               var result = _messageDialogService.ShowOkCancelDialog("Вы не все сохранили, вы уверены что хотите продолжить?", "Предупреждение");
                 if(result == MessageDialogResult.Cancel)
                 {
                     return;
@@ -80,7 +80,7 @@ namespace PatientCardApp.UI.ViewModel
             OnOpenDetailView(
                 new OpenDetailViewEventArgs
                 {
-                    ViewModelName = viewModelType.Name
+                    ViewModelName = viewModelType.Name,
                 }
                 );
         }

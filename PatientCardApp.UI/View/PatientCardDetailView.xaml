@@ -22,35 +22,35 @@
 
         <StackPanel Orientation="Horizontal" Margin="0 30 0 10">
             <Label Content="Ф.И.О" Margin="10 0 10 10"/>
-            <TextBox Text="{Binding PatientCard.LastName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="10 0 10 10" />
+            <TextBox Text="{Binding PatientCard.LastName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="10 0 10 10"  Height="30"/>
 
-            <TextBox Text="{Binding PatientCard.FirstName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="10 0 10 10" />
+            <TextBox Text="{Binding PatientCard.FirstName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="10 0 10 10"  Height="30"/>
 
-            <TextBox Text="{Binding PatientCard.MidleName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="10 0 10 10" />
+            <TextBox Text="{Binding PatientCard.MidleName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="10 0 10 10"  Height="30"/>
         </StackPanel>
         <StackPanel Grid.Row="1" Orientation="Horizontal">
-            <Label Content="Дата Рождения" Margin="10,0"/>
-            <DatePicker SelectedDate="{Binding PatientCard.BirthDay, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="10 0 10 10"/>
+            <Label Content="Дата Рождения" Margin="10 0 10 10"/>
+            <DatePicker Name="birthDay"  SelectedDate="{Binding PatientCard.BirthDay, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="10 0 10 10" Height="30"/>
 
-            <Label Content="Пол" Margin="10,0"/>
+            <Label Content="Пол" Margin="10 0 10 10"/>
             <ComboBox ItemsSource="{Binding Genders}"
                         DisplayMemberPath="DisplayMember"
                         SelectedValuePath="Id"
                         SelectedValue="{Binding PatientCard.GenderId, Mode=TwoWay}"
-                        Margin="10 0 10 10"/>
+                        Margin="10 0 10 10" Height="30"/>
         </StackPanel>
         <Label Grid.Row="2" Content="Адресс" Margin="10,0"/>
-        <TextBox Grid.Row="3" Text="{Binding PatientCard.Address, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="10 0 10 10"/>
+        <TextBox Grid.Row="3" Text="{Binding PatientCard.Address, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="10 0 10 10"  Height="30"/>
 
         <Label Grid.Row="4" Content="Телефон" Margin="10,0"/>
-        <TextBox Grid.Row="5" Text="{Binding PatientCard.PhoneNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="10 0 10 10"/>
+        <TextBox Grid.Row="5" Text="{Binding PatientCard.PhoneNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="10 0 10 20" Height="30"/>
 
         <Label Grid.Row="6" Content="Для ведения типа посещения пишите (1) если первичный, (2) если вторичный" Margin="29,23,37,143" FontWeight="SemiBold"  FontSize="14"/>
         <GroupBox Header="ПОСЕЩЕНИЯ К ВРАЧУ" Margin="10,0" Grid.Row="6">
             <DockPanel Margin="10 40 10 0">
                 <StackPanel DockPanel.Dock="Right">
                     <Button Content="Добавить прием" FontSize="16" Margin="10"
-                        Command="{Binding AddVisitCommand}"/>
+                        Command="{Binding AddVisitCommand}" FontWeight="Bold"/>
                     <Button Content="Удалить прием" FontSize="16" Margin="10"
                         Command="{Binding RemoveVisitCommand}"/>
 

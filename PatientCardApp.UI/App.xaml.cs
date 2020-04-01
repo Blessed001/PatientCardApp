@@ -29,7 +29,7 @@ namespace PatientCardApp.UI
         private void Application_DispatcherUnhandledException(object sender,
             System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
         {
-            MessageBox.Show("Ошибка" + Environment.NewLine + e.Exception.Message, "Ожидаемая Ошибка");
+            MessageBox.Show("Проверьте пожалуйста вводные вами данные и попробуйте  еще раз", "Что то пошло не так!!!");
             e.Handled = true;
         }
     } 

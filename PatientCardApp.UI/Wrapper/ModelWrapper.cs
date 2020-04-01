@@ -29,8 +29,6 @@ namespace PatientCardApp.UI.Wrapper
             ClearErrors(propertyName);
 
             ValidateDataAnnotations(propertyName, currentValue);
-
-            //ValidateCustomErrors(propertyName);
         }
 
         private void ValidateDataAnnotations(string propertyName, object currentValue)
@@ -44,22 +42,5 @@ namespace PatientCardApp.UI.Wrapper
                 AddError(propertyName, result.ErrorMessage);
             }
         }
-
-        //private void ValidateCustomErrors(string propertyName)
-        //{
-        //    var errors = ValidateProperty(propertyName);
-        //    if (errors != null)
-        //    {
-        //        foreach (var error in errors)
-        //        {
-        //            AddError(propertyName, error);
-        //        }
-        //    }
-        //}
-
-        //protected virtual IEnumerable<string> ValidateProperty(string propertyName)
-        //{
-        //    return null;
-        //}
     }
 }

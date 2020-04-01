@@ -5,6 +5,7 @@ using PatientCardApp.UI.View.Services;
 using PatientCardApp.UI.Wrapper;
 using Prism.Commands;
 using Prism.Events;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -65,6 +66,10 @@ namespace PatientCardApp.UI.ViewModel
 
         private void InitializePatientCard(PatientCard patientCard)
         {
+            if(patientCard.Id == 0)
+            {
+                patientCard.BirthDay = DateTime.Now.AddDays(-35040);
+            }
             PatientCard = new PatientCardWrapper(patientCard);
             PatientCard.PropertyChanged += (s, e) =>
             {
@@ -150,8 +155,8 @@ namespace PatientCardApp.UI.ViewModel
         }
         protected override async void OnDeleteExecute()
         {
-            var result = _messageDialogService.ShowOkCancelDialog($"Вы уверено хотите удалить пациента {PatientCard.LastName}?",
-                "Вопрос");
+            var result = _messageDialogService.ShowOkCancelDialog($"Вы уверены что хотите удалить пациента {PatientCard.LastName}?",
+                "Предупреждение");
             if(result == MessageDialogResult.OK)
             {
                 _patientCardRepository.Remove(PatientCard.Model);
@@ -179,6 +184,7 @@ namespace PatientCardApp.UI.ViewModel
         {
             var newVisit = new VisitWrapper(new Visit());
             newVisit.PropertyChanged += VisitWrapper_PropertyChanged;
+            newVisit.DayOfVisit = DateTime.Now;
             Visits.Add(newVisit);
             PatientCard.Model.Visits.Add(newVisit.Model);
         }
