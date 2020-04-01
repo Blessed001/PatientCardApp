@@ -52,6 +52,10 @@
     <Compile Include="Migrations\202004011044447_AllEntities.Designer.cs">
       <DependentUpon>202004011044447_AllEntities.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202004011954332_Address.cs" />
+    <Compile Include="Migrations\202004011954332_Address.Designer.cs">
+      <DependentUpon>202004011954332_Address.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="PatientCardContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -69,6 +73,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202004011044447_AllEntities.resx">
       <DependentUpon>202004011044447_AllEntities.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202004011954332_Address.resx">
+      <DependentUpon>202004011954332_Address.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

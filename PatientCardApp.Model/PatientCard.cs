@@ -32,7 +32,7 @@ namespace PatientCardApp.Model
         public DateTime BirthDay { get; set; }
 
         [Required(ErrorMessage = "Поля {0} является обязательным")]
-        [MaxLength(50, ErrorMessage = "Поля {0} должен быть максимуме {1} символи")]
+        [MaxLength(30, ErrorMessage = "Поля {0} должен быть максимуме {1} символи")]
         [Display(Name = "Адресс")]
         public string Address { get; set; }
 
