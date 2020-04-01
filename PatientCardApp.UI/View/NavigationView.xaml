@@ -10,7 +10,7 @@
         <GroupBox Header="ФАМИЛИЯ ПАЦИЕНТА">
         <ScrollViewer VerticalScrollBarVisibility="Auto"
                       HorizontalScrollBarVisibility="Auto">
-        <ItemsControl ItemsSource="{Binding PatientCards}">
+        <ItemsControl ItemsSource="{Binding PatientCards}" Margin="10">
                 <ItemsControl.ItemContainerStyle>
                     <Style TargetType="ContentPresenter">
                         <Setter Property="HorizontalAlignment" Value="Left"/>
@@ -20,7 +20,7 @@
             <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <Button Content="{Binding DisplayMember}"
-                            Command="{Binding OpenDetailViewCommand}">
+                            Command="{Binding OpenDetailViewCommand}" FontSize="16">
                             <Button.Template>
                                 <ControlTemplate TargetType="Button">
                                     <Grid x:Name="grid">

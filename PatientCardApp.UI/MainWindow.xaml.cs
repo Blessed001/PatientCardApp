@@ -1,10 +1,11 @@
-﻿using PatientCardApp.UI.ViewModel;
+﻿using MahApps.Metro.Controls;
+using PatientCardApp.UI.ViewModel;
 using System.Windows;
 
 namespace PatientCardApp.UI
 {
 
-    public partial class MainWindow : Window
+    public partial class MainWindow : MetroWindow
     {
         private MainViewModel _viewModel;
         public MainWindow(MainViewModel viewModel)

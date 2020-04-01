@@ -1,8 +1,9 @@
-﻿<Window x:Class="PatientCardApp.UI.MainWindow"
+﻿<Controls:MetroWindow x:Class="PatientCardApp.UI.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:local="clr-namespace:PatientCardApp.UI"
         xmlns:view="clr-namespace:PatientCardApp.UI.View"
         xmlns:viewModel="clr-namespace:PatientCardApp.UI.ViewModel"
@@ -24,7 +25,7 @@
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
         <Menu Grid.ColumnSpan="2" FontSize="20">
-            <MenuItem Header="Добавить новый пациент" Command="{Binding CreateNewDetailCommand}"
+            <MenuItem Header="Добавить нового пациента" Command="{Binding CreateNewDetailCommand}"
                           CommandParameter="{x:Type viewModel:PatientCardDetailViewModel}"/>
         </Menu>
         <view:NavigationView Grid.Row="1"
@@ -34,4 +35,4 @@
                                     Content="{Binding DetailViewModel}"/>
 
     </Grid>
-</Window>
+</Controls:MetroWindow>

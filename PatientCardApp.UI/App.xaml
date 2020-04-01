@@ -6,6 +6,15 @@
              DispatcherUnhandledException="Application_DispatcherUnhandledException">
     
     <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colors.xaml" />
+                <!-- Accent and AppTheme setting -->
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Green.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml" />
+                <ResourceDictionary>
         <Style TargetType="TextBox">
             <Setter Property="Validation.ErrorTemplate">
                 <Setter.Value>
@@ -34,6 +43,8 @@
         <Style x:Key="DataGridEditingColumnStyle" TargetType="TextBox">
 
         </Style>
-
+        </ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>
